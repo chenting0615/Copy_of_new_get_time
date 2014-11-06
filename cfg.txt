@@ -1,0 +1,2 @@
+192.168.19.52 administrator jinying	windows su-01
+192.168.60.145 root jinying linux su-02
