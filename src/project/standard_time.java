@@ -1,6 +1,7 @@
 package project;
 
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -99,13 +100,12 @@ public class standard_time extends Thread{
                     BufferedReader bufferedReader = new BufferedReader(read);
                     String lineTxt = null;
                     while((lineTxt = bufferedReader.readLine()) != null){
-                       //System.out.println(lineTxt);
                        data.add(lineTxt);
                     }
                     read.close();
-                    //String[] result=data.toArray(new String[]{});
                     String[] temp=data.toArray(new String[]{});
                     information=temp[0].split(" ");
+                    MainPage.secondsGap=Integer.parseInt(information[5].trim())*1000;
         }else{
             System.out.println("找不到指定的文件");
         }
@@ -121,6 +121,10 @@ public class standard_time extends Thread{
 		 linux_time lt=new linux_time();
 		 if(info[3].equals("windows")){
 				while(true){
+					if(MainPage.error>0){
+						Toolkit toolkit = Toolkit.getDefaultToolkit();
+						toolkit.beep();
+					}
 				String tmp=wt.get_win_time(info);
 				int n1=tmp.indexOf("\n");
 				String tmp_1=tmp.substring(0,n1);
@@ -136,6 +140,10 @@ public class standard_time extends Thread{
 			}
 			else{
 				while(true){
+					if(MainPage.error>0){
+						Toolkit toolkit = Toolkit.getDefaultToolkit();
+						toolkit.beep();
+					}
 				try{
 				String tmp=lt.get_linux_time(info);
 				int n1=tmp.indexOf("\n");
@@ -159,7 +167,7 @@ public class standard_time extends Thread{
 				total+=MainPage.used[i];
 			int error=MainPage.error;
 			int normal=total-error;
-			String global_status="全局状态：\n"+"共监控"+total+"台机器："+normal+"台正常;"+error+"台异常\n"+"最大偏差:"+MainPage.max+"秒;最小偏差:"+MainPage.min+"秒";
+			String global_status="全局状态：\n"+"共监控"+total+"台机器："+normal+"台正常;"+error+"台异常\n"+"最大偏差:"+MainPage.max+"秒;最小偏差:"+MainPage.min+"秒"+"\n默认"+MainPage.secondsGap/1000+"秒读取一次时间";
 			//System.out.println(global_status);
 			Font x1 = new Font("Serif",0,18);
 			MainPage.global_status_pane.setFont(x1);

@@ -33,6 +33,7 @@ public class add_machine extends JDialog {
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JPasswordField passwordField;
+	private JTextField yuzhi;
 
 	
 	/**
@@ -80,12 +81,12 @@ public class add_machine extends JDialog {
 		contentPanel.add(textField_1);
 		
 		JLabel label_1 = new JLabel("\u7C7B\u522B");
-		label_1.setBounds(87, 124, 43, 23);
+		label_1.setBounds(47, 124, 43, 23);
 		contentPanel.add(label_1);
 		
 		String type[]={"windows","linux"};
 		JComboBox comboBox = new JComboBox(type);
-		comboBox.setBounds(152, 122, 82, 26);
+		comboBox.setBounds(86, 122, 82, 26);
 		contentPanel.add(comboBox);
 		
 		textField_2 = new JTextField();
@@ -108,6 +109,19 @@ public class add_machine extends JDialog {
 		passwordField = new JPasswordField();
 		passwordField.setBounds(276, 218, 95, 26);
 		contentPanel.add(passwordField);
+		
+		JLabel label_5 = new JLabel("\u62A5\u8B66\u9608\u503C");
+		label_5.setBounds(207, 120, 59, 30);
+		contentPanel.add(label_5);
+		
+		yuzhi = new JTextField();
+		yuzhi.setBounds(286, 121, 66, 26);
+		contentPanel.add(yuzhi);
+		yuzhi.setColumns(10);
+		
+		JLabel label_6 = new JLabel("\u79D2");
+		label_6.setBounds(362, 124, 47, 19);
+		contentPanel.add(label_6);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -117,9 +131,10 @@ public class add_machine extends JDialog {
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						
-						String[] info={textField.getText(),textField_2.getText(),passwordField.getText(),comboBox.getSelectedItem().toString(),textField_1.getText()};
+						String[] info={textField.getText(),textField_2.getText(),passwordField.getText(),comboBox.getSelectedItem().toString(),textField_1.getText(),yuzhi.getText().trim()};
 						//JTextArea jta=new JTextArea(){{this.setOpaque(false);}};
 						//JLabel time=new JLabel(){{this.setOpaque(false);}};
+						MainPage.divGap[i][MainPage.used[i]]=Integer.parseInt(info[5]);
 						MainPage.time_lable[i][MainPage.used[i]]=new JLabel();
 						//jta.setBackground(Color.);
 						MainPage.time_lable[i][MainPage.used[i]].setBounds(12,15, 91, 59);
@@ -132,7 +147,7 @@ public class add_machine extends JDialog {
 						if(MainPage.table[i]!=null)
 							tableModel = (DefaultTableModel) MainPage.table[i].getModel();
 						if(tableModel!=null)
-							tableModel.addRow(new Object[]{info[4], info[0], "0"});
+							tableModel.addRow(new Object[]{info[4], info[0], "0",info[5]});
 						
 						
 						gtt.setid(i, MainPage.used[i]);

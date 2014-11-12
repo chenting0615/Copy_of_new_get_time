@@ -105,6 +105,7 @@ public class panel_info extends JPanel {
 	{
 		int num=rows*cols;
 		int total=machine_info.length;
+		System.out.println(total);
 		for(int i=0;i<num;i++){
 			MainPage.machine[group_id][i]=new JPanel(){{this.setOpaque(false);}
 			   public void paintComponent(Graphics g) {
@@ -116,6 +117,7 @@ public class panel_info extends JPanel {
 			//if(i<MainPage.used[group_id])
 			if(i<machine_info.length){
 				try{
+				
 				MainPage.machine[group_id][i].setVisible(true);
 				MainPage.time_lable[group_id][i]=new JLabel();
 				//jta.setBackground(Color.);
@@ -123,7 +125,9 @@ public class panel_info extends JPanel {
 				MainPage.time_lable[group_id][i].setForeground(Color.DARK_GRAY);
 				//MainPage.machine[i][MainPage.used[i]].setVisible(true);
 				MainPage.machine[group_id][i].add(MainPage.time_lable[group_id][i]);
+				
 				String[] information=MainPage.info[group_id][i].split(" ");
+				MainPage.divGap[group_id][i]=Integer.parseInt(information[5]);
 				gettime_thread gtt=new gettime_thread(MainPage.time_lable[group_id][i],information);
 				//System.out.println("groupid="+group_id+" id="+i);
 				gtt.setid(group_id, i);
@@ -155,7 +159,7 @@ public class panel_info extends JPanel {
 		//System.out.println(s);
 		String[] ss=s.split(" ");
 		if(tableModel!=null)
-			tableModel.addRow(new Object[]{ss[4], ss[0], "0"});
+			tableModel.addRow(new Object[]{ss[4], ss[0], "0",ss[5]});
 	}
 	
 	/*

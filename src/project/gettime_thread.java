@@ -33,13 +33,20 @@ public class gettime_thread extends Thread{
 		linux_time lt=new linux_time();
 		//warning_thread wth=new warning_thread(jta);
 		//Thread warn=new Thread(wth);
-		boolean started=false;
+		//boolean started=false;
 		if(info[3].equals("windows")){
 
 			while(true){
 				try{
 			String tmp=wt.get_win_time(info);
 			//System.out.println("测试获取的数据"+tmp);
+			if(tmp==null){
+				jta.setBackground(Color.RED);
+				Thread.sleep(10000);
+				this.resume();
+			}
+			else
+				jta.setOpaque(false);
 			wt.setgroup(group, id);
 			if(tmp!=null){
 				jta.setOpaque(false);
@@ -49,6 +56,7 @@ public class gettime_thread extends Thread{
 				//String result=info[0]+"\n"+tmp;
 				String result="<html><body>"+info[0]+"<br>"+tmp_1+"<br>"+tmp_2+"</body></html>";
 				//System.out.println(result);
+				if(result!=null)
 				jta.setText(result);
 				MainPage.has_connect[group][id]=true;
 				//jta.paintImmediately(jta.getBounds());
@@ -71,7 +79,7 @@ public class gettime_thread extends Thread{
 						MainPage.max=MainPage.min;
 					}
 					try{
-						Thread.sleep(5000);
+						Thread.sleep(MainPage.secondsGap);
 					}catch (InterruptedException e) {e.printStackTrace();}
 				}
 			}
@@ -122,7 +130,7 @@ public class gettime_thread extends Thread{
 						MainPage.max=MainPage.min;
 					}
 					try{
-						Thread.sleep(5000);
+						Thread.sleep(MainPage.secondsGap);
 					}catch (InterruptedException e) {e.printStackTrace();}
 				}
 			}
@@ -213,8 +221,8 @@ public class gettime_thread extends Thread{
 
 			int cha=seconds(a,b);
 			
-			
-			if(cha>=300)
+			System.out.println("cha="+cha);
+			if(cha>=MainPage.divGap[group][id])
 				return false;
 			else
 				return true;
@@ -334,8 +342,8 @@ public class gettime_thread extends Thread{
 			temp="+"+result;
 		try{
 		MainPage.table[group].setValueAt(temp,id, 2);
-		MainPage.table[group].updateUI();
-		}catch(Exception e){this.resume();}
+		//MainPage.table[group].updateUI();
+		}catch(Exception e){System.out.println("表单错误："+e.getMessage());}
 		//System.out.println("groupid="+group+" id="+id);
 		return result;
 	}
@@ -409,12 +417,10 @@ public class gettime_thread extends Thread{
 	
 	public void warn(){
 		try{
-		for(int i=0;i<5;i++){
-			Toolkit toolkit = Toolkit.getDefaultToolkit();
-			toolkit.beep();
-			jta.setBackground(Color.RED);
-			Thread.sleep(500);
+		for(int i=0;i<MainPage.secondsGap/2000;i++){
 			jta.setBackground(Color.WHITE);
+			Thread.sleep(500);
+			jta.setBackground(Color.RED);
 			Thread.sleep(500);}
 	}catch (InterruptedException e) {e.printStackTrace();}
 		}

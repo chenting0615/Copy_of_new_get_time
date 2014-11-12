@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Scanner;
+import javax.swing.plaf.*;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -24,6 +25,10 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JButton;
+import javax.swing.JTextField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MainPage {
 
@@ -43,6 +48,11 @@ public class MainPage {
 	public static int error=0;
 	public static boolean[][] has_connect=new boolean[4][10];
 	public static String found_time=null;
+	public static int secondsGap=5*1000;
+	public static Runtime runtime=Runtime.getRuntime();
+	public static int[][] divGap=new int[4][10];
+	private JTextField setText;
+	private JPanel setPanel;
 	//private JTable table_1;
 
 	/**
@@ -66,8 +76,10 @@ public class MainPage {
 	 */
 	public MainPage() {
 		for(int i=0;i<4;i++){
-			for(int j=0;j<10;j++)
+			for(int j=0;j<10;j++){
 				has_connect[i][j]=false;
+				divGap[i][j]=300;
+			}
 		}
 		for(int i=0;i<4;i++)
 			readTxtFile(path[i],i);
@@ -141,7 +153,7 @@ public class MainPage {
 		for(int i=0;i<4;i++)
 		{
 			scrollPane[i]=new JScrollPane();
-			String[] headers = { "主机名", "ip", "时间差" };
+			String[] headers = { "主机名", "ip", "时间差","阀值" };
 			Object[][] cellData =  null;
 			DefaultTableModel model = new DefaultTableModel(cellData, headers) {
 				  public boolean isCellEditable(int row, int column) {
@@ -149,6 +161,7 @@ public class MainPage {
 				  }
 				};
 			table[i]=new JTable(model);
+			//JTable.fitTableColumns(table[i]);
 			scrollPane[i].setViewportView(table[i]);
 			local_status.addTab(fenlei[i], scrollPane[i]);
 		}
@@ -184,6 +197,49 @@ public class MainPage {
 		p4.setBorder(BorderFactory.createLineBorder(Color.gray));
 		p4.setBounds(586, 447, 543, 248);
 		frame.getContentPane().add(p4);
+		
+		JButton button = new JButton("\u91CD\u7F6E");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				reset();
+			}
+		});
+		button.setBounds(988, 59, 57, 29);
+		frame.getContentPane().add(button);
+		
+		JButton button_1 = new JButton("设置");
+		button_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				setPanel.setVisible(true);
+			}
+		});
+		button_1.setBounds(1089, 59, 57, 29);
+		frame.getContentPane().add(button_1);
+		
+		setPanel = new JPanel();
+		setPanel.setBounds(981, 94, 176, 61);
+		frame.getContentPane().add(setPanel);
+		setPanel.setVisible(false);
+		setPanel.setLayout(null);
+		
+		setText = new JTextField();
+		setText.setToolTipText("\u8BBE\u7F6E\u53D6\u65F6\u95F4\u95F4\u9694");
+		setText.setBounds(10, 22, 70, 29);
+		setPanel.add(setText);
+		setText.setColumns(10);
+		
+		JLabel label = new JLabel("\u79D2");
+		label.setBounds(90, 25, 26, 22);
+		setPanel.add(label);
+		
+		JButton btnOk = new JButton("OK");
+		btnOk.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				setGap();
+			}
+		});
+		btnOk.setBounds(114, 23, 53, 26);
+		setPanel.add(btnOk);
 		
 		
 		
@@ -232,5 +288,22 @@ public class MainPage {
 			Runtime.getRuntime().exec("net use * /del /y");
 		} catch (IOException e1) {e1.printStackTrace();}
 		System.exit(0); 
-		} 
+		}
+	
+	public void reset(){
+		secondsGap=300*1000;
+		for(int i=0;i<4;i++){
+			for(int j=0;j<10;j++)
+				divGap[i][j]=300;
+		}
+	}
+	
+	public void setGap(){
+		String set=setText.getText().trim();
+		int newGap=Integer.parseInt(set);
+		secondsGap=newGap*1000;
+		setPanel.setVisible(false);
+	}
+	
+	
 }
