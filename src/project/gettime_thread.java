@@ -41,6 +41,7 @@ public class gettime_thread extends Thread{
 			String tmp=wt.get_win_time(info);
 			//System.out.println("测试获取的数据"+tmp);
 			if(tmp==null){
+				jta.setOpaque(true);
 				jta.setBackground(Color.RED);
 				Thread.sleep(10000);
 				this.resume();
@@ -221,7 +222,6 @@ public class gettime_thread extends Thread{
 
 			int cha=seconds(a,b);
 			
-			System.out.println("cha="+cha);
 			if(cha>=MainPage.divGap[group][id])
 				return false;
 			else
@@ -364,13 +364,10 @@ public class gettime_thread extends Thread{
 		String tmp=null;
 		do{
 		tmp=MainPage.found_time;
-		System.out.println(tmp);
 		String[] temp;
 		if(tmp!=null)
 		{
-			System.out.println(tmp);
 			temp=tmp.split("\n");
-			System.out.println(temp.length);
 			if(temp.length==3)
 				standtime=temp[1]+"\n"+temp[2];
 			else{
