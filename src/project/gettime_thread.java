@@ -221,7 +221,6 @@ public class gettime_thread extends Thread{
 			
 
 			int cha=seconds(a,b);
-			
 			if(cha>=MainPage.divGap[group][id])
 				return false;
 			else
@@ -286,6 +285,7 @@ public class gettime_thread extends Thread{
 			temp_1[i]=temp_1[i-1]+t_1[i-1];
 		for(int i=1;i<12;i++)
 			temp_2[i]=temp_2[i-1]+t_2[i-1];
+
 		
 		int days_1=0;
 		int days_2=0;
@@ -298,10 +298,12 @@ public class gettime_thread extends Thread{
 			else
 				days_1+=365;
 		}
+		
 		if(a[0]%4==0)
-			days_1+=temp_2[a[1]];
+			days_1+=temp_2[a[1]-1];
 		else
-			days_1+=temp_1[a[1]];
+			days_1+=temp_1[a[1]-1];
+
 		days_1+=a[2];
 		
 		
@@ -314,10 +316,11 @@ public class gettime_thread extends Thread{
 				days_2+=365;
 		}
 		if(b[0]%4==0)
-			days_2+=temp_2[b[1]];
+			days_2+=temp_2[b[1]-1];
 		else
-			days_2+=temp_1[b[1]];
+			days_2+=temp_1[b[1]-1];
 		days_2+=b[2];
+		
 		
 		int sec_1=3600*a[3]+60*a[4]+a[5];
 		int sec_2=3600*b[3]+60*b[4]+b[5];

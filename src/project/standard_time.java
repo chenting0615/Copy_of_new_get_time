@@ -69,6 +69,8 @@ public class standard_time extends Thread{
 						Font x1 = new Font("Serif",0,18);
 						MainPage.global_status_pane.setFont(x1);
 						MainPage.global_status_pane.setText(global_status);
+						if(error>0&&MainPage.sound)
+							Toolkit.getDefaultToolkit().beep();
 						//MainPage.global_status_pane.paintImmediately(MainPage.global_status_pane.getBounds());
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
@@ -121,10 +123,6 @@ public class standard_time extends Thread{
 		 linux_time lt=new linux_time();
 		 if(info[3].equals("windows")){
 				while(true){
-					if(MainPage.error>0){
-						Toolkit toolkit = Toolkit.getDefaultToolkit();
-						toolkit.beep();
-					}
 				String tmp=wt.get_win_time(info);
 				int n1=tmp.indexOf("\n");
 				String tmp_1=tmp.substring(0,n1);
@@ -140,10 +138,6 @@ public class standard_time extends Thread{
 			}
 			else{
 				while(true){
-					if(MainPage.error>0){
-						Toolkit toolkit = Toolkit.getDefaultToolkit();
-						toolkit.beep();
-					}
 				try{
 				String tmp=lt.get_linux_time(info);
 				int n1=tmp.indexOf("\n");
@@ -166,6 +160,8 @@ public class standard_time extends Thread{
 			for(int i=0;i<4;i++)
 				total+=MainPage.used[i];
 			int error=MainPage.error;
+			if(error>0&&MainPage.sound)
+				Toolkit.getDefaultToolkit().beep();
 			int normal=total-error;
 			String global_status="全局状态：\n"+"共监控"+total+"台机器："+normal+"台正常;"+error+"台异常\n"+"最大偏差:"+MainPage.max+"秒;最小偏差:"+MainPage.min+"秒"+"\n默认"+MainPage.secondsGap/1000+"秒读取一次时间";
 			//System.out.println(global_status);

@@ -29,6 +29,7 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
 
 public class MainPage {
 
@@ -51,6 +52,7 @@ public class MainPage {
 	public static int secondsGap=5*1000;
 	public static Runtime runtime=Runtime.getRuntime();
 	public static int[][] divGap=new int[4][10];
+	public static boolean sound=true;
 	private JTextField setText;
 	private JPanel setPanel;
 	//private JTable table_1;
@@ -241,7 +243,32 @@ public class MainPage {
 		btnOk.setBounds(114, 23, 53, 26);
 		setPanel.add(btnOk);
 		
+		JButton soundbtn = new JButton("");
+		soundbtn.setIcon(new ImageIcon("D:\\clock\\image\\sound1.png"));
+		soundbtn.setBounds(1049, 10, 57, 35);
+		frame.getContentPane().add(soundbtn);
 		
+		JButton nosoundbtn = new JButton("");
+		nosoundbtn.setIcon(new ImageIcon("D:\\clock\\image\\nosound1.png"));
+		nosoundbtn.setBounds(1049, 10, 57, 35);
+		nosoundbtn.setVisible(false);
+		frame.getContentPane().add(nosoundbtn);
+		
+		soundbtn.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				soundbtn.setVisible(false);
+				nosoundbtn.setVisible(true);
+				sound=false;
+			}
+		});
+		
+		nosoundbtn.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				nosoundbtn.setVisible(false);
+				soundbtn.setVisible(true);
+				sound=true;
+			}
+		});
 		
 		
 		
@@ -304,6 +331,4 @@ public class MainPage {
 		secondsGap=newGap*1000;
 		setPanel.setVisible(false);
 	}
-	
-	
 }
